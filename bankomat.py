@@ -1,63 +1,99 @@
 class Banka:
+    jazyk = 1
     def __init__(ucet,heslo,suma,pokusy):
         ucet.heslo = heslo
         ucet.suma = suma
         ucet.pokusy = pokusy
 ucty = list()
 ucty.append(Banka(1234,0,3))
+def zmenJazyk():
+    i = int(input("1.Slovencina\n2.English\n"))
+    if (i == 1) or (i == 2):
+        Banka.jazyk = i
+        if Banka.jazyk == 1: input("Jazyk uspesne zmeneny!\n")
+        elif Banka.jazyk == 2: input("Language succesfully changed!\n")
+    else:
+        print("Invalid choice")
 
 def pristup(i):
     while ucty[i].pokusy > 0 and ucty[i].pokusy < 4:
-        vstup = int(input("Zadajte heslo: "))
+        if Banka.jazyk == 1: vstup = int(input("Zadajte heslo: "))
+        if Banka.jazyk == 2: vstup = int(input("Enter you password: "))
         if int(vstup) == ucty[i].heslo:
-            print("Pristup povoleny!")
+            if Banka.jazyk == 1: print("Pristup povoleny!")
+            if Banka.jazyk == 2: print("Access granted!")
             ucty[i].pokusy = 4;
         else:
             ucty[i].pokusy -= 1;
-            print("Nespravne heslo!")
-            print("Pocet zostavajucich pokusov: " + str(ucty[i].pokusy))
+            if Banka.jazyk == 1:
+                print("Nespravne heslo!")
+                print("Pocet zostavajucich pokusov: " + str(ucty[i].pokusy))
+            if Banka.jazyk == 2:
+                print("Invalid password!")
+                print("Remaining attempts: " + str(ucty[i].pokusy))
     if ucty[i].pokusy == 0:
-        print("Zablokovany ucet!")
+        if Banka.jazyk == 1: print("Zablokovany ucet!")
+        if Banka.jazyk == 2: print("Acount blocked!")
         return 0
     else:
         ucty[i].pokusy = 3
         return 1
 
 def vUcte():
-    i = int(input("Zadajte cislo uctu: "))
+    if Banka.jazyk == 1: i = int(input("Zadajte cislo uctu: "))
+    if Banka.jazyk == 2: i = int(input("Enter account numer: "))
     akcia = pristup(i) 
     if akcia == 0: return
     while akcia > 0:
-        akcia = int(input("1.Vlozit peniaze\n2.Vybrat peniaze\n3.Pozriet zostatok\n0.Ukoncit\n"))
+        if Banka.jazyk == 1: akcia = int(input("1.Vlozit peniaze\n2.Vybrat peniaze\n3.Pozriet zostatok\n0.Odhlasit sa\n"))
+        if Banka.jazyk == 2: akcia = int(input("1.Deposit money\n2.Withdraw money\n3.Check balance\n0.Log out\n"))
         if akcia == 0: return
         if akcia == 1:
-            suma = int(input("Zadajte sumu: "))
+            if Banka.jazyk == 1: suma = int(input("Zadajte sumu: "))
+            if Banka.jazyk == 2: suma = int(input("Enter the amount: "))
             ucty[i].suma += suma
-            print("Zostatok na ucte: " + str(ucty[i].suma) + "€\n")
+            if Banka.jazyk == 1: print("Zostatok na ucte: " + str(ucty[i].suma) + "€\n")
+            if Banka.jazyk == 2: print("Account balance:" + str(ucty[i].suma) + "€\n")
         elif akcia == 2:
-            suma = int(input("Zadajte sumu: "))
+            if Banka.jazyk == 1: suma = int(input("Zadajte sumu: "))
+            if Banka.jazyk == 2: suma = int(input("Enter the amount: "))
             if ucty[i].suma < suma:
-                input("Nedostatocny kapital, operacia prerusena!\n")
+                if Banka.jazyk == 1: input("Nedostatocny kapital, operacia prerusena!\n")
+                if Banka.jazyk == 2: input("Insufficient balance, transaction cancelled\n")
             else:
                 ucty[i].suma -= suma
-                print("Zostatok na ucte: " + str(ucty[i].suma) + "€\n")
+                if Banka.jazyk == 1: print("Zostatok na ucte: " + str(ucty[i].suma) + "€\n")
+                if Banka.jazyk == 2: print("Account balance:" + str(ucty[i].suma) + "€\n")
         elif akcia == 3:
-            print("Zostatok na ucte: " + str(ucty[i].suma) + "€\n")
+            if Banka.jazyk == 1: print("Zostatok na ucte: " + str(ucty[i].suma) + "€\n")
+            if Banka.jazyk == 2: print("Account balance:" + str(ucty[i].suma) + "€\n")
             input()
 
 def vytvor():
-    print("Vase cislo: " + str(len(ucty)))
-    heslo = int(input("Zadajte Vas pin kod: "))
+    if Banka.jazyk == 1: 
+        print("Vase cislo uctu: " + str(len(ucty)))
+        heslo = int(input("Zadajte Vas pin kod: "))
+    if Banka.jazyk == 2: 
+        print("Account number: " + str(len(ucty)))
+        heslo = int(input("Enter your pin: "))
     ucty.append(Banka(heslo,0,3))
-    print("Ucet uspesne vytvoreny!")
+    if Banka.jazyk == 1: input("Ucet uspesne vytvoreny!")
+    if Banka.jazyk == 2: input("Account succesfully created!")
 
 while(1):
-    print("Vitajte v Banke")
-    akcia = int(input("1. Vstupit do uctu \n2. Vytvorit ucet\n0. ukoncit\n"))
+    if Banka.jazyk == 1: 
+        print("Vitajte v Banke")
+        akcia = int(input("1. Vstupit do uctu \n2. Vytvorit ucet\n3. Zmenit jazyk\n0. Ukoncit\n"))
+    elif Banka.jazyk == 2: 
+        print("Welcome to the Bank")
+        akcia = int(input("1. Entry the account \n2. Create new account\n3. Change language\n0. Exit\n"))
     if akcia == 1:
         vUcte()
     elif akcia == 2:
         vytvor()
+    elif akcia == 3:
+        zmenJazyk()
     elif akcia == 0:
         break
-print("Dovidenia!")
+if Banka.jazyk == 1: print("Dovidenia!")
+elif Banka.jazyk == 2: print("See you soon!")
