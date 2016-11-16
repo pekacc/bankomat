@@ -1,11 +1,19 @@
 class Banka:
     jazyk = 1
-    def __init__(ucet,heslo,suma,pokusy):
+    def __init__(ucet,heslo,suma,pokusy,cislo):
         ucet.heslo = heslo
         ucet.suma = suma
         ucet.pokusy = pokusy
+        ucet.cislo = cislo
+
 ucty = list()
-ucty.append(Banka(1234,0,3))
+ucty.append(Banka(1234,0,3,1234))
+
+def cisloUctu(cislo):
+    for i in (0,len(ucty)-1):
+        if ucty[i].cislo == cislo: return i
+    return -1
+
 def zmenJazyk():
     i = int(input("1.Slovencina\n2.English\n"))
     if (i == 1) or (i == 2):
@@ -40,9 +48,13 @@ def pristup(i):
         return 1
 
 def vUcte():
-    if Banka.jazyk == 1: i = int(input("Zadajte cislo uctu: "))
-    if Banka.jazyk == 2: i = int(input("Enter account numer: "))
-    akcia = pristup(i) 
+    if Banka.jazyk == 1: i = cisloUctu(int(input("Zadajte cislo uctu: ")))
+    if Banka.jazyk == 2: i = cisloUctu(int(input("Enter account numer: ")))
+    if i == -1:
+        if Banka.jazyk == 1: input("Neexistujuci ucet!")
+        if Banka.jazyk == 2: input("Non existing account!")
+        akcia = 0
+    else: akcia = pristup(i) 
     if akcia == 0: return
     while akcia > 0:
         if Banka.jazyk == 1: akcia = int(input("1.Vlozit peniaze\n2.Vybrat peniaze\n3.Pozriet zostatok\n0.Odhlasit sa\n"))
@@ -71,12 +83,12 @@ def vUcte():
 
 def vytvor():
     if Banka.jazyk == 1: 
-        print("Vase cislo uctu: " + str(len(ucty)))
+        cislo = int(input("Zadajte cislo Vasho noveho uctu: "))
         heslo = int(input("Zadajte Vas pin kod: "))
     if Banka.jazyk == 2: 
-        print("Account number: " + str(len(ucty)))
+        cislo = int(input("Set you new account number: "))
         heslo = int(input("Enter your pin: "))
-    ucty.append(Banka(heslo,0,3))
+    ucty.append(Banka(heslo,0,3,cislo))
     if Banka.jazyk == 1: input("Ucet uspesne vytvoreny!")
     if Banka.jazyk == 2: input("Account succesfully created!")
 
