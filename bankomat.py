@@ -7,10 +7,23 @@ class Banka:
         ucet.cislo = cislo
 
 ucty = list()
-ucty.append(Banka(1234,0,3,1234))
 
+file = open("ucty.txt", "r")
+a = file.readline()
+print(a)
+while a != "":
+    b = file.readline()
+    c = file.readline()
+    d = file.readline()
+    ucty.append(Banka(int(a),int(b),int(c),int(d)))
+    a = file.readline()
+
+def vypisUcty():
+    for i in range (0,len(ucty)):
+        print (str(ucty[i].heslo))
+    print()
 def cisloUctu(cislo):
-    for i in (0,len(ucty)-1):
+    for i in range (0,len(ucty)):
         if ucty[i].cislo == cislo: return i
     return -1
 
@@ -105,7 +118,13 @@ while(1):
         vytvor()
     elif akcia == 3:
         zmenJazyk()
+    elif akcia == 9:
+        vypisUcty()
     elif akcia == 0:
         break
+
+file = open("ucty.txt", "w")
+for i in range (0,len(ucty)): 
+    file.write(str(ucty[i].heslo) + "\n" + str(ucty[i].suma) + "\n" + str(ucty[i].pokusy) + "\n" +  str(ucty[i].cislo) + "\n")
 if Banka.jazyk == 1: print("Dovidenia!")
 elif Banka.jazyk == 2: print("See you soon!")
