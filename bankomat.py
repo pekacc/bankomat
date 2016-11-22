@@ -125,5 +125,6 @@ while(1):
 file = open("ucty.txt", "w")
 for i in range (0,len(ucty)): 
     file.write(str(ucty[i].heslo) + "\n" + str(ucty[i].suma) + "\n" + str(ucty[i].pokusy) + "\n" +  str(ucty[i].cislo) + "\n")
+file.close()
 if Banka.jazyk == 1: print("Dovidenia!")
 elif Banka.jazyk == 2: print("See you soon!")
